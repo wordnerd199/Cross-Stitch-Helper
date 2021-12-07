@@ -40,7 +40,7 @@ def Convert_file():
                     colors[color] = colors.get(color) + 1
         names = list(colors.keys())
         output = []
-        count = int(fabricCount.get())
+        count = int(clicked.get())
         thread_per_stitch = stitch_measure(count)
         for i in range(len(names)):
             symbol = names[i]
@@ -51,7 +51,10 @@ def Convert_file():
 window = tk.Tk()
 window.title("Cross stitch helper")
 fileName = tk.Entry(width = 15)
-fabricCount = tk.Entry(width = 5)
+aida_types = ["6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22"]
+clicked = tk.StringVar()
+clicked.set("18")
+fabricCount = tk.OptionMenu(window, clicked, *aida_types)
 lbl_fileName = tk.Label(text = "Pattern file name: ")
 lbl_fabricCount = tk.Label(text = "Fabric count: ")
 btnConvert = tk.Button(
