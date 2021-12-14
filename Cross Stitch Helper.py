@@ -13,8 +13,11 @@ def file_check(f):
 
 #calculates amount of thread used in 1 stitch (inches)
 def stitch_measure(count):
+    #the "count" of this fabric is how many stitches it has per inch, so 1/count is the width or height of one stitch as a fraction of an inch
     stitch = 1/count
+    #pythagorean theorem is applied to measure the length across the diagonal of one stitch
     diagonal = math.sqrt(2*(stitch**2))
+    #one stitch requires the thread to run across both diagonals and two of the sides of the stitch
     thread_length = (2*stitch) + (2*diagonal)
     return thread_length
 
@@ -23,11 +26,14 @@ def inchChecked(event):
     if chkval_inch.get() == True:
         chk_cm["state"] = "disabled"
         chk_skein["state"] = "disabled"
+        #this section in each of these [unit]Checked functions produces the final output, with a line for each color in the pattern
         for i in range(len(names)):
             symbol = names[i]
             inch_length = math.ceil((thread_per_stitch*colors[symbol]*number_of_strands)*1.15)
+            #the lengths are converted to the selected unit (in this case, left alone as inches)
             lbl_Output = tk.Label(outputWindow, text = str(inch_length) + " inches of color " + symbol, width = 35, height = 1)
             lbl_Output.grid(row = i+1, column = 0, columnspan = 2)
+            #each line also prompts a color picker window to assign a color that will be shown in a blank label next to the symbol
             lbl_Color = tk.Label(outputWindow, text = "  ")
             lbl_Color.grid(sticky = tk.W, row = i + 1, column = 2)
             thread_color = askcolor(title = "Select thread color for " + symbol)
@@ -63,6 +69,7 @@ def skeinChecked(event):
         for i in range(len(names)):
             symbol = names[i]
             inch_length = math.ceil((thread_per_stitch*colors[symbol]*number_of_strands)*1.15)
+            #since a standard skein of embroidery thread is 8m (8.7 yd) of 6-stranded floss, one skein contains approximately 1879 total inches of thread
             skein_length = round(inch_length/1879, 2)
             lbl_Output = tk.Label(outputWindow, text = str(skein_length) + " skeins of color " + symbol, width = 35, height = 1)
             lbl_Output.grid(row = i+1, column = 0, columnspan = 2)
@@ -145,6 +152,7 @@ fileName.grid(row = 0, column = 1)
 #second row: fabric count selection
 lbl_fabricCount = tk.Label(text = "Fabric count: ")
 lbl_fabricCount.grid(row = 1, column = 0)
+#aida fabric is sold in counts from 6-count (6 stitches per inch) up to 22-count (22 stitches per inch)
 aida_types = ["6", "7", "8", "9", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22"]
 clicked = tk.StringVar()
 clicked.set("18")
@@ -154,6 +162,7 @@ fabricCount.grid(row = 1, column = 1)
 #third row: strand count selection
 lbl_strands = tk.Label(text = "Number of strands: ")
 lbl_strands.grid(row = 2, column = 0)
+#embroidery thread is sold in 6-strand units, so 6 is the maximum number of strands most users will be stitching with
 strand_options = ["1", "2", "3", "4", "5", "6"]
 strandClicked = tk.StringVar()
 strandClicked.set("2")
